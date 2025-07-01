@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import Logo from "./assets/logo.png"
 import { TrendingUp, Eye, Mail,Target,  Loader2,
   Rocket,
   CheckCircle,
@@ -141,7 +142,8 @@ const submitData = async () => {
     }
   ];
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100" style={{ fontFamily: 'Sora, sans-serif' }}>
+
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-blue-50 to-blue-100" style={{ fontFamily: 'Sora, sans-serif' }}>
       <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       {/* Navigation */}
 <nav className="flex items-center justify-between px-8 py-4">
@@ -149,11 +151,15 @@ const submitData = async () => {
   <div className="flex items-center gap-8">
     {/* Logo */}
     <div className="flex items-center gap-2">
-      <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#9F2648' }}>
-        <div className="w-4 h-4 bg-white rounded-full"></div>
-      </div>
-      <span className="text-xl font-bold text-gray-900">BidMint</span>
-      <span className="text-sm text-gray-600 ml-1">Profile Optimizer</span>
+      {/* <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#9F2648' }}>
+      </div> */}
+                <img
+    src={Logo} style={{width:"170px"}}// Replace with your actual logo path
+    alt="BidMint Logo"
+    // className="w-10 h-10 object-contain"
+  />
+      {/* <span className="text-xl font-bold text-gray-900">BidMint</span>
+      <span className="text-sm text-gray-600 ml-1">Profile Optimizer</span> */}
     </div>
 
     {/* Navigation Links */}
