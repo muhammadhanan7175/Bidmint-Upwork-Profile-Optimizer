@@ -164,10 +164,10 @@ const submitData = async () => {
 
     {/* Navigation Links */}
     <div className="hidden md:flex items-center gap-6 ml-6">
-      <a href="#" className="text-black hover:text-gray-900 font-medium">Features</a>
-      <a href="#" className="text-black hover:text-gray-900 font-medium">How it works?</a>
-      <a href="#" className="text-black hover:text-gray-900 font-medium">Testimonials</a>
-      <a href="#" className="text-black hover:text-gray-900 font-medium">FAQ</a>
+  <a href="#feature-grid" className="!text-black !visited:text-black !hover:text-gray-900 font-medium no-underline">Features</a>
+  <a href="#works" className="!text-black !visited:text-black !hover:text-gray-900 font-medium no-underline">How it works?</a>
+  <a href="#testimonial" className="!text-black !visited:text-black !hover:text-gray-900 font-medium no-underline">Testimonials</a>
+  <a href="#faq" className="!text-black !visited:text-black !hover:text-gray-900 font-medium no-underline">FAQ</a>
     </div>
   </div>
 
@@ -275,7 +275,7 @@ const submitData = async () => {
       </div>
 
       {/* Why Freelancers Struggle Section */}
-      <div className="bg-gray-100 py-16">
+      <div id="works" className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-8">
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -647,7 +647,7 @@ const submitData = async () => {
       </div>
 
       {/* Testimonials Section */}
-      <div className="bg-white py-16">
+      <div id='testimonial' className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-8">
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -734,7 +734,7 @@ const submitData = async () => {
       </div>
        <div className="bg-gray-50" style={{ fontFamily: 'Sora, sans-serif' }}>
       {/* FAQ Section */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <div id='faq' className="max-w-4xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Frequently Asked <span className="text-white px-2 py-1 rounded" style={{ backgroundColor: '#9F2648' }}>Questions</span>
