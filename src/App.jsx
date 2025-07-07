@@ -41,7 +41,7 @@ export default function BidMintHero() {
   }
 
 const submitData = async () => {
-  const { name, email, profileUrl } = formData;
+  const { name, email, profileUrl, isBeginner } = formData;
 
   if (!name.trim() || !email.trim() || !profileUrl.trim()) {
     setMessage({ text: "Please fill in all fields.", type: "error" });
@@ -73,11 +73,13 @@ const submitData = async () => {
     return;
   }
 
-  const encodedName = encodeURIComponent(name);
-  const encodedEmail = encodeURIComponent(email);
-  const encodedId = encodeURIComponent(extracted);
+const encodedName = encodeURIComponent(name);
+const encodedEmail = encodeURIComponent(email);
+const encodedId = encodeURIComponent(extracted);
+const encodedBeginner = encodeURIComponent(isBeginner); // New
 
-  const url = `https://n8n-neahkkld.us-east-1.clawcloudrun.com/webhook/f3ad7f44-c0d0-48b8-901a-c096521c7ddc/${encodedName}/${encodedEmail}/${encodedId}`;
+const url = `https://n8n-neahkkld.us-east-1.clawcloudrun.com/webhook/f3ad7f44-c0d0-48b8-901a-c096521c7ddc/${encodedName}/${encodedEmail}/${encodedId}/${encodedBeginner}`;
+
 
   try {
     const response = await fetch(url);
@@ -538,113 +540,156 @@ const submitData = async () => {
       </div>
 
       {/* CTA Form Section */}
-      <div className="bg-gray-50 py-16">
-        <div id="optimize-form" className="max-w-2xl mx-auto px-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-            {/* Form Header */}
-            <div className="text-white p-6 text-center " style={{ backgroundColor: '#9F2648' }}>
-              <h3 className="text-xl font-bold mb-2">Optimize your Upwork Profile Now</h3>
-              <p className="text-sm opacity-90">Get personalized recommendations in minutes, completely free!</p>
+<div className="bg-gray-50 py-16">
+  <div id="optimize-form" className="max-w-2xl mx-auto px-8">
+    <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+      {/* Form Header */}
+      <div className="text-white p-6 text-center" style={{ backgroundColor: '#9F2648' }}>
+        <h3 className="text-xl font-bold mb-2">Optimize your Upwork Profile Now</h3>
+        <p className="text-sm opacity-90">Get personalized recommendations in minutes, completely free!</p>
+      </div>
+
+      {/* Form Content */}
+      <div className="p-6">
+        <form className="space-y-4">
+          {/* Full Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <input
+              id="heroName"
+              type="text"
+              value={formData.name}
+              placeholder="John Smith"
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
+              style={{ focusRingColor: '#9F2648' }}
+            />
+          </div>
+
+          {/* Email (no tooltip now) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <input
+              type="email"
+              id="heroEmail"
+              placeholder="john@example.com"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
+              style={{ focusRingColor: '#9F2648' }}
+            />
+          </div>
+
+          {/* Upwork Profile URL with Tooltip */}
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Upwork Profile URL</label>
+            <input
+              type="url"
+              id="heroProfileUrl"
+              placeholder="https://www.upwork.com/freelancers/~01abcd2ef3g4h5i6j7k8l9"
+              value={formData.profileUrl}
+              onChange={(e) => {
+                const value = e.target.value
+                setFormData({ ...formData, profileUrl: value })
+                if (value.trim() && !showPopupMessage) {
+                  setShowPopupMessage(true)
+                  setTimeout(() => setShowPopupMessage(false), 5000)
+                }
+              }}
+              onPaste={(e) => {
+                const value = e.clipboardData.getData("text")
+                if (value.trim() && !showPopupMessage) {
+                  setShowPopupMessage(true)
+                  setTimeout(() => setShowPopupMessage(false), 5000)
+                }
+              }}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
+              style={{ focusRingColor: '#9F2648' }}
+            />
+            {/* Tooltip on URL */}
+            <div className="absolute top-0 right-0 mt-1 mr-1 group">
+              <svg
+                className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9 2a7 7 0 100 14A7 7 0 009 2zM8 6a1 1 0 112 0v2a1 1 0 01-2 0V6zm1 8a1 1 0 110-2 1 1 0 010 2z" />
+              </svg>
+              <div className="hidden group-hover:block absolute right-0 mt-6 w-72 bg-yellow-50 border border-yellow-300 text-yellow-800 text-sm rounded-lg shadow-md p-3 z-10">
+                Please enter your public Upwork profile URL. Private profiles will be blocked.
+              </div>
             </div>
 
-            {/* Form Content */}
-            <div className="p-6">
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input 
-                    id="heroName"
-                    type="text" 
-                    value={formData.name}
-                    placeholder="John Smith"
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
-                    style={{ focusRingColor: '#9F2648' }}
-                  />
+            {/* Popup below input */}
+            {showPopupMessage && (
+              <div className="mt-2 bg-yellow-100 border border-yellow-300 rounded-lg p-3 animate-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center">
+                  <AlertCircle className="h-4 w-4 text-yellow-600 mr-2 flex-shrink-0" />
+                  <p className="text-yellow-800 text-sm font-medium">
+                    Make sure to enter your public Upwork profile URL
+                  </p>
                 </div>
+              </div>
+            )}
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="heroEmail"
-                    placeholder="john@example.com"
-                     value={formData.email}
-                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
-                    style={{ focusRingColor: '#9F2648' }}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Upwork Profile URL</label>
-                  <input 
-                    type="url" 
-                    id="heroProfileUrl"
-                    placeholder="https://www.upwork.com/freelancers/~01abcd2ef3g4h5i6j7k8l9"
-                                            value={formData.profileUrl}
-                        onChange={(e) => {
-                          const value = e.target.value
-                          setFormData({ ...formData, profileUrl: value })
-                          // Show popup message when user starts typing
-                          if (value.trim() && !showPopupMessage) {
-                            setShowPopupMessage(true)
-                            setTimeout(() => setShowPopupMessage(false), 5000)
-                          }
-                        }}
-                        onPaste={(e) => {
-                          const value = e.clipboardData.getData("text")
-                          if (value.trim() && !showPopupMessage) {
-                            setShowPopupMessage(true)
-                            setTimeout(() => setShowPopupMessage(false), 5000)
-                          }
-                        }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900 placeholder-gray-400"
-                    style={{ focusRingColor: '#9F2648' }}
-                  />
-                                        {showPopupMessage && (
-                        <div className="mt-2 bg-yellow-100 border border-yellow-300 rounded-lg p-3 animate-in slide-in-from-top-2 duration-300">
-                          <div className="flex items-center">
-                            <AlertCircle className="h-4 w-4 text-yellow-600 mr-2 flex-shrink-0" />
-                            <p className="text-yellow-800 text-sm font-medium">
-                              Make sure to enter your public Upwork profile URL
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                </div>
-
-                <button 
-                  type="submit"
-                  className="w-full text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-colors flex items-center justify-center gap-2"
-                  style={{ backgroundColor: '#9F2648' }}
-                       onClick={submitData}
-                      disabled={isSubmitting}
+            {/* Beginner Toggle with Tooltip */}
+            <div className="flex items-center mt-4 gap-2">
+              <label htmlFor="beginnerToggle" className="text-sm text-gray-700 font-medium">Are you a beginner freelancer?</label>
+              <input
+                id="beginnerToggle"
+                type="checkbox"
+                checked={formData.isBeginner}
+                onChange={(e) => setFormData({ ...formData, isBeginner: e.target.checked })}
+                className="toggle-checkbox h-5 w-5 text-pink-600 border-gray-300 rounded"
+              />
+              <div className="relative group">
+                <svg
+                  className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
                 >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Generating Report...
-                        </>
-                      ) : (
-                        <>
-                          <Target className="mr-2 h-4 w-4" />
-                          Optimize My Profile
-                        </>
-                      )}
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-
-                <p className="text-xs text-gray-500 text-center leading-relaxed">
-                  By submitting, you agree to our <a href="#" className="underline hover:no-underline">Terms of Service</a> and <a href="#" className="underline hover:no-underline">Privacy Policy</a>
-                </p>
-              </form>
+                  <path d="M9 2a7 7 0 100 14A7 7 0 009 2zM8 6a1 1 0 112 0v2a1 1 0 01-2 0V6zm1 8a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+                <div className="hidden group-hover:block absolute left-0 mt-6 w-80 bg-yellow-50 border border-yellow-300 text-yellow-800 text-sm rounded-lg shadow-md p-3 z-10">
+                  Turn this on if you're a beginner freelancer and your profile lacks client feedback or job success score. Otherwise, your report may be blocked.
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-colors flex items-center justify-center gap-2"
+            style={{ backgroundColor: '#9F2648' }}
+            onClick={submitData}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating Report...
+              </>
+            ) : (
+              <>
+                <Target className="mr-2 h-4 w-4" />
+                Optimize My Profile
+              </>
+            )}
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+
+          <p className="text-xs text-gray-500 text-center leading-relaxed">
+            By submitting, you agree to our <a href="#" className="underline hover:no-underline">Terms of Service</a> and <a href="#" className="underline hover:no-underline">Privacy Policy</a>
+          </p>
+        </form>
       </div>
+    </div>
+  </div>
+</div>
+
 
       {/* Testimonials Section */}
       <div id='testimonial' className="bg-white py-16">
