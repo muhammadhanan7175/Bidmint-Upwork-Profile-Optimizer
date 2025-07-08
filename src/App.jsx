@@ -78,7 +78,7 @@ const encodedEmail = encodeURIComponent(email);
 const encodedId = encodeURIComponent(extracted);
 const encodedBeginner = encodeURIComponent(isBeginner); // New
 
-const url = `https://n8n-neahkkld.us-east-1.clawcloudrun.com/webhook/f3ad7f44-c0d0-48b8-901a-c096521c7ddc/${encodedName}/${encodedEmail}/${encodedId}/${encodedBeginner}`;
+const url = `https://n8n.manans.me/webhook/f3ad7f44-c0d0-48b8-901a-c096521c7ddc/${encodedName}/${encodedEmail}/${encodedId}/${encodedBeginner}`;
 
 
   try {
